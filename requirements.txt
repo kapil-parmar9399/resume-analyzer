@@ -6,3 +6,6 @@ docx2txt==0.8
 pdfplumber==0.10.0
 rapidfuzz==2.16.1
 reportlab==4.0.0
+pymongo
+python-dotenv
+pydantic
