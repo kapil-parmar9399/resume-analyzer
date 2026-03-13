@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Admin Panel - Welcome {{ admin_name }}</h2>
+        <a href="/logout" class="btn btn-danger">Logout</a>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card p-3 text-center shadow-sm">
+                <h5>Total Users</h5>
+                <h2>{{ total_users }}</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3 text-center shadow-sm">
+                <h5>Active Users</h5>
+                <h2>{{ active_users }}</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3 text-center shadow-sm">
+                <h5>Inactive Users</h5>
+                <h2>{{ inactive_users }}</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3 text-center shadow-sm">
+                <h5>Total Resumes</h5>
+                <h2>{{ total_resumes }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resume Analysis Stats -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card p-3 shadow-sm">
+                <h5>Resumes Analyzed</h5>
+                <p>{{ total_analyzed }} / {{ total_resumes }}</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-3 shadow-sm">
+                <h5>Top Skills</h5>
+                <ul class="mb-0">
+                    {% for skill, count in top_skills %}
+                        <li>{{ skill }} - {{ count }} users</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-3">
+            <canvas id="userStatusPie" height="250"></canvas>
+        </div>
+        <div class="col-md-6 mb-3">
+            <canvas id="topSkillsBar" height="250"></canvas>
+        </div>
+    </div>
+
+    <!-- Average Score + Skill Cloud -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-3">
+            <div class="card p-3 text-center shadow-sm">
+                <h5>Average Resume Score</h5>
+                <p style="font-size:1.5rem; font-weight:bold;">
+                    {% if resumes|length > 0 %}
+                    {{ (resumes | map(attribute='score') | sum / resumes|length) | round(2) }}%
+                    {% else %} N/A {% endif %}
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card p-3 shadow-sm">
+                <h5>Top 10 Skills Cloud</h5>
+                {% for skill, count in top_skills %}
+                    <span style="font-size: {{ 12 + count*2 }}px; margin-right:5px;">{{ skill }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Full Users Table -->
+    <h4 class="mt-5">All Users</h4>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered shadow-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Total Resumes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in users %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ u.name }}</td>
+                    <td>{{ u.email }}</td>
+                    <td>{{ u.role }}</td>
+                    <td>{{ resumes | selectattr("user_id","equalto",u.id) | list | length }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Pie chart – Active vs Inactive users
+const userStatus = { active: {{ active_users }}, inactive: {{ inactive_users }} };
+const ctxUserPie = document.getElementById('userStatusPie');
+new Chart(ctxUserPie, {
+    type: 'pie',
+    data: {
+        labels: ['Active', 'Inactive'],
+        datasets: [{ data: [userStatus.active, userStatus.inactive], backgroundColor: ['#36A2EB', '#FF6384'] }]
+    },
+    options: { responsive: true, maintainAspectRatio:false }
+});
+
+// Bar chart – Top Skills
+const topSkills = {{ top_skills | map(attribute=0) | list | tojson }};
+const topSkillsCount = {{ top_skills | map(attribute=1) | list | tojson }};
+const ctxTopSkills = document.getElementById('topSkillsBar');
+new Chart(ctxTopSkills, {
+    type: 'bar',
+    data: {
+        labels: topSkills,
+        datasets: [{ label: 'Top Skills Count', data: topSkillsCount, backgroundColor: 'rgba(75,192,192,0.7)' }]
+    },
+    options: { responsive: true, maintainAspectRatio:false }
+});
+</script>
+
+{% endblock %}

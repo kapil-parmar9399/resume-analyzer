@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section text-white text-center" style="padding: 100px 20px; background: linear-gradient(135deg, #0f2027, #2c5364);">
+    <div class="container">
+        <h1 class="display-3 fw-bold mb-3">Professional Resume Analyzer</h1>
+        <p class="lead mb-4">Upload your resume and get instant insights, skill analysis, and personalized recommendations to improve your career prospects.</p>
+
+        {% if user %}
+        <a href="/upload_page" class="btn btn-warning btn-lg shadow-lg">Start Analyzing Now</a>
+        {% else %}
+        <a href="/login" class="btn btn-warning btn-lg shadow-lg">Login to Start Analyzing</a>
+        {% endif %}
+
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-5">Why Choose Our Resume Analyzer?</h2>
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6">
+                <div class="card shadow-lg h-100 p-4 text-center feature-card">
+                    <img src="/static/images/skills.png" alt="Skills" class="mb-3" style="height:70px;">
+                    <h5 class="fw-bold mb-2">Skill Extraction</h5>
+                    <p class="small">Automatically extract your top skills from your resume.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card shadow-lg h-100 p-4 text-center feature-card">
+                    <img src="/static/images/score.png" alt="Score" class="mb-3" style="height:70px;">
+                    <h5 class="fw-bold mb-2">Resume Score</h5>
+                    <p class="small">Get a detailed resume score from 0 to 100 based on skills and experience.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card shadow-lg h-100 p-4 text-center feature-card">
+                    <img src="/static/images/chart.png" alt="Charts" class="mb-3" style="height:70px;">
+                    <h5 class="fw-bold mb-2">Visual Dashboard</h5>
+                    <p class="small">Interactive charts for skills, experience, and education.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card shadow-lg h-100 p-4 text-center feature-card">
+                    <img src="/static/images/report.png" alt="Report" class="mb-3" style="height:70px;">
+                    <h5 class="fw-bold mb-2">Download Report</h5>
+                    <p class="small">Generate professional PDF reports for your resume analysis.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials / Reviews Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-5">What Users Say</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card shadow-sm p-4">
+                    <p>"This resume analyzer improved my resume score by 30 points! Very helpful."</p>
+                    <h6 class="fw-bold mt-3">– Rajesh Kumar</h6>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm p-4">
+                    <p>"Professional design and very accurate skill extraction. Highly recommend."</p>
+                    <h6 class="fw-bold mt-3">– Priya Singh</h6>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm p-4">
+                    <p>"Easy to use and generate PDF reports. Looks like a real SaaS product."</p>
+                    <h6 class="fw-bold mt-3">– Aman Verma</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="bg-primary py-5 text-white text-center">
+    <div class="container">
+        <h2 class="fw-bold mb-3">Ready to Improve Your Resume?</h2>
+        <p class="mb-4">Upload your resume now and get actionable insights in seconds.</p>
+
+        {% if user %}
+        <a href="/upload_page" class="btn btn-warning btn-lg shadow-lg">Upload Resume</a>
+        {% else %}
+        <a href="/login" class="btn btn-warning btn-lg shadow-lg">Login to Upload Resume</a>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

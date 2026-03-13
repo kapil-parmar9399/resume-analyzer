@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card shadow p-4 mx-auto" style="max-width:500px">
+
+        <h2 class="text-center mb-4">Upload Your Resume & Job Description</h2>
+
+        <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data" class="d-flex flex-column gap-3">
+
+            <!-- Resume file -->
+            <div>
+                <label for="resumeFile" class="form-label small mb-1">Upload Resume</label>
+                <input 
+                    class="form-control"
+                    type="file"
+                    id="resumeFile"
+                    name="file"
+                    accept=".pdf,.docx"
+                    required
+                >
+            </div>
+
+            <!-- Job Description file -->
+            <div>
+                <label for="jdFile" class="form-label small mb-1">Upload Job Description (Optional)</label>
+                <input 
+                    class="form-control"
+                    type="file"
+                    id="jdFile"
+                    name="jd_file"
+                    accept=".pdf,.docx"
+                >
+            </div>
+
+            <!-- Upload button -->
+            <button class="btn btn-primary w-100 btn-lg" type="submit">
+                Upload
+            </button>
+
+        </form>
+
+        <p class="text-muted text-center mt-3">
+            Supported formats: PDF, DOCX
+        </p>
+
+    </div>
+</div>
+
+<script>
+document.getElementById('uploadForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const form = e.target;
+
+    const resumeFile = form.querySelector('input[name="file"]').files[0];
+    const jdFile = form.querySelector('input[name="jd_file"]').files[0];
+
+    if(!resumeFile) {
+        alert("Please select a resume to upload!");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", resumeFile);
+    if(jdFile) formData.append("jd_file", jdFile);
+
+    fetch("/upload", { method: "POST", body: formData })
+        .then(res => res.text())
+        .then(html => {
+            document.open();
+            document.write(html);
+            document.close();
+        })
+        .catch(err => alert("Error uploading files: " + err));
+});
+</script>
+
+{% endblock %}

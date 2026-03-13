@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Missing Skills</h1>
+<ul>
+    {% for skill in missing_skills %}
+    <li>{{ skill }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

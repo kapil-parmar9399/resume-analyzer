@@ -1,0 +1,95 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+section {
+    scroll-margin-top: 80px;
+}
+
+.card {
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+}
+
+footer a:hover {
+    text-decoration: underline;
+    color: #f8f9fa;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #f8f9fa;
+}
+
+
+/* Hero Section */
+
+.hero-section h1 {
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+}
+
+
+/* Feature Cards */
+
+.feature-card {
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: white;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Call to Action Buttons */
+
+.btn-warning {
+    border-radius: 50px;
+    padding: 12px 35px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-warning:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Testimonials Cards */
+
+section .card {
+    border-radius: 15px;
+}
+
+
+/* Logo hover effect */
+
+.navbar-brand img {
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand img:hover {
+    transform: scale(1.1);
+}

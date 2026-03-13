@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Top Skills Found</h1>
+<canvas id="skillsChart" width="400" height="200"></canvas>
+<script src="/static/js/charts.js"></script>
+<script>
+const labels = {{ matched_skills|tojson }};
+const data = Array(labels.length).fill(1);
+createChart(labels, data);
+</script>
+{% endblock %}
