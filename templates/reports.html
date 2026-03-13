@@ -18,7 +18,7 @@
             <tr>
                 <td>{{ r.filename }}</td>
                 <td>{{ r.skills | join(", ") }}</td>
-                <td>{{ r.score }}</td>
+                <td>{{ r.ai_score | default(0) }}%</td>
             <td>
     <!-- PDF Download Button -->
     <a href="/download/{{ r.filename }}" 
