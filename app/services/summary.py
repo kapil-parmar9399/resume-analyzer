@@ -2,6 +2,7 @@ import re
 import docx2txt
 import pdfplumber
 
+
 def extract_text(filepath):
     """Extract text from PDF or DOCX."""
     text = ""
@@ -15,25 +16,28 @@ def extract_text(filepath):
         text = docx2txt.process(filepath)
     return text
 
+
 def extract_summary(filepath):
     """Extract compact Profile, Education, Experience, Certifications."""
     text = extract_text(filepath)
-    text = re.sub(r'\s+', ' ', text)  # remove excessive whitespace
+
+    # ⚠️ IMPORTANT: newline preserve karo (pehle wali mistake fix)
+    text = re.sub(r'[ \t]+', ' ', text)
+
     lines = [line.strip() for line in text.split('\n') if line.strip()]
 
     summary_info = {}
 
-    # 🔹 Profile: first proper name (all caps or Capitalized)
+    # 🔹 Profile (Name)
     name_match = re.search(r"\b([A-Z][a-z]+(?:\s[A-Z][a-z]+)*)\b", text)
     summary_info["summary"] = name_match.group(1) if name_match else "Profile summary not available"
 
-    # 🔹 Education: only 10th, 12th, degree name
+    # 🔹 Education
     education = []
-    # Match 10th, 12th
-    edu_10 = re.search(r"10th.*?Board|10th.*?\d{4}", text, re.IGNORECASE)
-    edu_12 = re.search(r"12th.*?School|12th.*?\d{4}", text, re.IGNORECASE)
-    # Match Degree
-    degree = re.search(r"(Bachelor.*?|B\.Tech|B\.E|Master.*?|M\.Tech|MCA|BSc|MSc)", text, re.IGNORECASE)
+
+    edu_10 = re.search(r"10th.*?(\d{4})", text, re.IGNORECASE)
+    edu_12 = re.search(r"12th.*?(\d{4})", text, re.IGNORECASE)
+    degree = re.search(r"(B\.Tech|B\.E|Bachelor.*?|M\.Tech|MCA|BSc|MSc|Master.*?)", text, re.IGNORECASE)
 
     if edu_10:
         education.append(edu_10.group(0).strip())
@@ -44,19 +48,57 @@ def extract_summary(filepath):
 
     summary_info["education"] = education if education else ["Education info not extracted"]
 
-    # 🔹 Experience: Fresher or years of experience only
+    # 🔹 Experience
     exp_match = re.search(r'(\d+\s*years.*?experience|Fresher|fresher)', text, re.IGNORECASE)
     summary_info["experience"] = [exp_match.group(0).strip()] if exp_match else ["Fresher"]
 
-    # 🔹 Certifications: only certificate names
-    cert_keywords = ['Certified', 'Certification', 'AWS', 'Google', 'Microsoft', 'Oracle', 'NPTEL', 'Python', 'C\+\+', 'C#', 'CCNA', 'Scrum', 'ITIL']
+    # 🔹 Certifications (🔥 FINAL CLEAN FIX)
     certs = []
-    for kw in cert_keywords:
-        matches = re.findall(rf"{kw}[\w\s\-&,]*", text, re.IGNORECASE)
-        for m in matches:
-            cert_name = m.strip().replace('--', '').replace('-', '').strip()
-            if cert_name not in certs:
-                certs.append(cert_name)
-    summary_info["certifications"] = certs if certs else ["No certifications"]
+    seen = set()
+
+    cert_start = -1
+
+    # Step 1: Find Certifications section line
+    for i, line in enumerate(lines):
+        if "certification" in line.lower():
+            cert_start = i
+            break
+
+    if cert_start != -1:
+        # Step 2: Take only next few lines (safe range)
+        cert_lines = lines[cert_start + 1: cert_start + 7]
+
+        for line in cert_lines:
+
+            # Stop if next section starts
+            if any(word in line.lower() for word in ["skills", "projects", "experience", "education"]):
+                break
+
+            items = line.split(",")
+
+            for item in items:
+                item = item.strip()
+
+                if not item:
+                    continue
+
+                # ❌ Reject long sentences
+                if len(item.split()) > 5:
+                    continue
+
+                # ❌ Reject descriptive words
+                if any(word in item.lower() for word in ["and", "using", "build", "generate", "system", "analysis"]):
+                    continue
+
+                # ✅ Accept only clean names
+                if re.match(r"^[a-zA-Z0-9\+\# ]+$", item):
+                    cert_name = item.title()
+
+                    if cert_name not in seen:
+                        seen.add(cert_name)
+                        certs.append(cert_name)
+
+    # Step 3: Final fallback
+    summary_info["certifications"] = certs if certs else ["None"]
 
     return summary_info
