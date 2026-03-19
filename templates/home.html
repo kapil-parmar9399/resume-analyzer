@@ -1,97 +1,174 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% block content %}
 
-<!-- Hero Section -->
-<section class="hero-section text-white text-center" style="padding: 100px 20px; background: linear-gradient(135deg, #0f2027, #2c5364);">
+<section class="hero text-white">
+    <div class="hero-shape"></div>
     <div class="container">
-        <h1 class="display-3 fw-bold mb-3">Professional Resume Analyzer</h1>
-        <p class="lead mb-4">Upload your resume and get instant insights, skill analysis, and personalized recommendations to improve your career prospects.</p>
-
-        {% if user %}
-        <a href="/upload_page" class="btn btn-warning btn-lg shadow-lg">Start Analyzing Now</a>
-        {% else %}
-        <a href="/login" class="btn btn-warning btn-lg shadow-lg">Login to Start Analyzing</a>
-        {% endif %}
-
-    </div>
-</section>
-
-<!-- Features Section -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <h2 class="text-center fw-bold mb-5">Why Choose Our Resume Analyzer?</h2>
-        <div class="row g-4">
-            <div class="col-md-3 col-sm-6">
-                <div class="card shadow-lg h-100 p-4 text-center feature-card">
-                    <img src="/static/images/skills.png" alt="Skills" class="mb-3" style="height:70px;">
-                    <h5 class="fw-bold mb-2">Skill Extraction</h5>
-                    <p class="small">Automatically extract your top skills from your resume.</p>
+        <div class="row align-items-center g-4">
+            <div class="col-lg-6">
+                <span class="badge-soft">Live Resume Intelligence</span>
+                <h1 class="mt-3">Turn resumes into hiring-ready stories in minutes.</h1>
+                <p class="mt-3">Upload your resume, match it to job descriptions, and get professional insights across skills, ATS readiness, and scoring.</p>
+                <div class="d-flex gap-3 mt-4">
+                    {% if user %}
+                        <a href="/upload_page" class="btn btn-accent">Upload Resume</a>
+                        <a href="/dashboard" class="btn btn-ghost">View Dashboard</a>
+                    {% else %}
+                        <a href="/register" class="btn btn-accent">Create Free Account</a>
+                        <a href="/login" class="btn btn-ghost">Sign In</a>
+                    {% endif %}
                 </div>
             </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="card shadow-lg h-100 p-4 text-center feature-card">
-                    <img src="/static/images/score.png" alt="Score" class="mb-3" style="height:70px;">
-                    <h5 class="fw-bold mb-2">Resume Score</h5>
-                    <p class="small">Get a detailed resume score from 0 to 100 based on skills and experience.</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="card shadow-lg h-100 p-4 text-center feature-card">
-                    <img src="/static/images/chart.png" alt="Charts" class="mb-3" style="height:70px;">
-                    <h5 class="fw-bold mb-2">Visual Dashboard</h5>
-                    <p class="small">Interactive charts for skills, experience, and education.</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="card shadow-lg h-100 p-4 text-center feature-card">
-                    <img src="/static/images/report.png" alt="Report" class="mb-3" style="height:70px;">
-                    <h5 class="fw-bold mb-2">Download Report</h5>
-                    <p class="small">Generate professional PDF reports for your resume analysis.</p>
+            <div class="col-lg-6">
+                <div class="card p-4">
+                    <h4 class="mb-3">Snapshot Insights</h4>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <div class="stat-card">
+                                <p class="mb-1 text-muted">ATS Readiness</p>
+                                <h3 class="mb-0">92%</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="stat-card">
+                                <p class="mb-1 text-muted">JD Match</p>
+                                <h3 class="mb-0">78%</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="stat-card">
+                                <p class="mb-1 text-muted">Top Gaps</p>
+                                <div>
+                                    <span class="tag">Power BI</span>
+                                    <span class="tag">AWS</span>
+                                    <span class="tag">Leadership</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-muted mt-3">Built to feel like a live product with actionable insights, not just a PDF parser.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Testimonials / Reviews Section -->
 <section class="py-5">
     <div class="container">
-        <h2 class="text-center fw-bold mb-5">What Users Say</h2>
-        <div class="row g-4">
+        <div class="section-title">
+            <span></span>
+            <h2 class="mb-0">Professional Features</h2>
+        </div>
+        <div class="row g-4 feature-grid">
             <div class="col-md-4">
-                <div class="card shadow-sm p-4">
-                    <p>"This resume analyzer improved my resume score by 30 points! Very helpful."</p>
-                    <h6 class="fw-bold mt-3">– Rajesh Kumar</h6>
+                <div class="card animate">
+                    <div class="icon-badge">01</div>
+                    <h5 class="mt-3">Smart Resume Parsing</h5>
+                    <p>Extract skills, education, and experience instantly from PDF or DOCX.</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card shadow-sm p-4">
-                    <p>"Professional design and very accurate skill extraction. Highly recommend."</p>
-                    <h6 class="fw-bold mt-3">– Priya Singh</h6>
+                <div class="card animate">
+                    <div class="icon-badge">02</div>
+                    <h5 class="mt-3">JD Match Engine</h5>
+                    <p>Compare against job descriptions and identify missing keywords quickly.</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card shadow-sm p-4">
-                    <p>"Easy to use and generate PDF reports. Looks like a real SaaS product."</p>
-                    <h6 class="fw-bold mt-3">– Aman Verma</h6>
+                <div class="card animate">
+                    <div class="icon-badge">03</div>
+                    <h5 class="mt-3">ATS Readiness Score</h5>
+                    <p>Understand how ATS-friendly your resume is with a live readiness score.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card animate">
+                    <div class="icon-badge">04</div>
+                    <h5 class="mt-3">Resume History</h5>
+                    <p>Track every upload, score change, and skill evolution in one workspace.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card animate">
+                    <div class="icon-badge">05</div>
+                    <h5 class="mt-3">Side-by-Side Compare</h5>
+                    <p>Compare two resumes to decide which version performs better.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card animate">
+                    <div class="icon-badge">06</div>
+                    <h5 class="mt-3">JD Library</h5>
+                    <p>Save job descriptions and reuse them for future matches.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card animate">
+                    <div class="icon-badge">07</div>
+                    <h5 class="mt-3">Professional Reports</h5>
+                    <p>Export PDF reports that are presentation-ready for clients or mentors.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card animate">
+                    <div class="icon-badge">08</div>
+                    <h5 class="mt-3">Admin Analytics</h5>
+                    <p>Track platform usage, active users, and top skills for insights.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Call to Action Section -->
-<section class="bg-primary py-5 text-white text-center">
+<section class="py-5 bg-white">
     <div class="container">
-        <h2 class="fw-bold mb-3">Ready to Improve Your Resume?</h2>
-        <p class="mb-4">Upload your resume now and get actionable insights in seconds.</p>
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-6">
+                <div class="section-title">
+                    <span></span>
+                    <h2 class="mb-0">How It Works</h2>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h6 class="mb-1">Upload resume & JD</h6>
+                        <p class="mb-0">Drag and drop files and get structured data instantly.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h6 class="mb-1">Review live insights</h6>
+                        <p class="mb-0">See ATS readiness, skill gaps, and experience signals.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h6 class="mb-1">Export and iterate</h6>
+                        <p class="mb-0">Download the report, update resume, and track improvements.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card p-4">
+                    <h5 class="mb-2">What you get</h5>
+                    <ul class="mb-0">
+                        <li>Instant skills extraction and score</li>
+                        <li>Missing skills suggestions</li>
+                        <li>Resume history and trend tracking</li>
+                        <li>Side-by-side comparison</li>
+                        <li>JD library for multiple roles</li>
+                        <li>Clean PDF reports</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
+<section class="py-5">
+    <div class="container text-center">
+        <h2>Ready to launch your best resume?</h2>
+        <p class="mb-4">Get your professional analysis in under a minute.</p>
         {% if user %}
-        <a href="/upload_page" class="btn btn-warning btn-lg shadow-lg">Upload Resume</a>
+            <a href="/upload_page" class="btn btn-primary">Start Analysis</a>
         {% else %}
-        <a href="/login" class="btn btn-warning btn-lg shadow-lg">Login to Upload Resume</a>
+            <a href="/register" class="btn btn-primary">Create Your Account</a>
         {% endif %}
-
     </div>
 </section>
 

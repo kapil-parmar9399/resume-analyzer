@@ -1,49 +1,47 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% block content %}
 
-<div class="container mt-5">
-    <div class="card shadow p-4 mx-auto" style="max-width:500px">
+<div class="container my-5">
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card p-4">
+                <h3 class="mb-2">Upload Resume & JD</h3>
+                <p class="text-muted">Upload your resume and optional job description for instant matching.</p>
 
-        <h2 class="text-center mb-4">Upload Your Resume & Job Description</h2>
+                <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data" class="d-flex flex-column gap-3">
+                    <div class="upload-drop">
+                        <h6 class="mb-2">Resume File</h6>
+                        <input class="form-control" type="file" name="file" accept=".pdf,.docx" required>
+                        <small class="text-muted">PDF or DOCX, max 3MB recommended.</small>
+                    </div>
 
-        <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data" class="d-flex flex-column gap-3">
+                    <div class="upload-drop">
+                        <h6 class="mb-2">Job Description (Optional)</h6>
+                        <input class="form-control" type="file" name="jd_file" accept=".pdf,.docx">
+                        <small class="text-muted">Use this to calculate JD match.</small>
+                    </div>
 
-            <!-- Resume file -->
-            <div>
-                <label for="resumeFile" class="form-label small mb-1">Upload Resume</label>
-                <input 
-                    class="form-control"
-                    type="file"
-                    id="resumeFile"
-                    name="file"
-                    accept=".pdf,.docx"
-                    required
-                >
+                    <button class="btn btn-primary w-100" type="submit">Analyze Now</button>
+                </form>
             </div>
-
-            <!-- Job Description file -->
-            <div>
-                <label for="jdFile" class="form-label small mb-1">Upload Job Description (Optional)</label>
-                <input 
-                    class="form-control"
-                    type="file"
-                    id="jdFile"
-                    name="jd_file"
-                    accept=".pdf,.docx"
-                >
+        </div>
+        <div class="col-lg-6">
+            <div class="card p-4">
+                <h4>What You Will Get</h4>
+                <ul>
+                    <li>Instant skills extraction</li>
+                    <li>JD match percentage</li>
+                    <li>ATS readiness score</li>
+                    <li>Professional PDF report</li>
+                    <li>Personalized skill suggestions</li>
+                </ul>
+                <div class="mt-4">
+                    <span class="tag">Fast Analysis</span>
+                    <span class="tag">Role Matching</span>
+                    <span class="tag">PDF Reports</span>
+                </div>
             </div>
-
-            <!-- Upload button -->
-            <button class="btn btn-primary w-100 btn-lg" type="submit">
-                Upload
-            </button>
-
-        </form>
-
-        <p class="text-muted text-center mt-3">
-            Supported formats: PDF, DOCX
-        </p>
-
+        </div>
     </div>
 </div>
 
@@ -51,19 +49,12 @@
 document.getElementById('uploadForm').addEventListener('submit', function(e){
     e.preventDefault();
     const form = e.target;
-
     const resumeFile = form.querySelector('input[name="file"]').files[0];
-    const jdFile = form.querySelector('input[name="jd_file"]').files[0];
-
     if(!resumeFile) {
         alert("Please select a resume to upload!");
         return;
     }
-
-    const formData = new FormData();
-    formData.append("file", resumeFile);
-    if(jdFile) formData.append("jd_file", jdFile);
-
+    const formData = new FormData(form);
     fetch("/upload", { method: "POST", body: formData })
         .then(res => res.text())
         .then(html => {

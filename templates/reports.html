@@ -1,38 +1,43 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% block content %}
-<div class="container mt-5">
-    <h2 class="mb-4">Your Resume Reports - {{ user.name }}</h2>
+
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2 class="mb-1">Reports</h2>
+            <p class="text-muted">Download or review your professional resume reports.</p>
+        </div>
+        <a href="/dashboard" class="btn btn-primary">Back to Dashboard</a>
+    </div>
 
     {% if resumes %}
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Filename</th>
-                <th>Skills</th>
-                <th>Score</th>
-                <th>Download</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for r in resumes %}
-            <tr>
-                <td>{{ r.filename }}</td>
-                <td>{{ r.skills | join(", ") }}</td>
-                <td>{{ r.ai_score | default(0) }}%</td>
-            <td>
-    <!-- PDF Download Button -->
-    <a href="/download/{{ r.filename }}" 
-       class="btn btn-primary btn-sm" 
-       style="padding: 0.25rem 0.75rem; font-size: 0.875rem; line-height: 1.5; border-radius: 0.25rem;">
-       PDF
-    </a>
-</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Filename</th>
+                    <th>Top Skills</th>
+                    <th>Score</th>
+                    <th>JD Match</th>
+                    <th>Download</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in resumes %}
+                <tr>
+                    <td>{{ r.filename }}</td>
+                    <td>{{ r.skills | join(', ') }}</td>
+                    <td>{{ r.ai_score | default(0) }}%</td>
+                    <td>{{ r.jd_match_percent | default(0) }}%</td>
+                    <td><a href="/download/{{ r.filename }}" class="btn btn-outline-primary btn-sm">PDF</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     {% else %}
-        <p>No resumes uploaded yet.</p>
+        <p>No reports available yet.</p>
     {% endif %}
 </div>
+
 {% endblock %}

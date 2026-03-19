@@ -1,0 +1,74 @@
+﻿{% extends "base.html" %}
+{% block content %}
+
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2 class="mb-1">JD Library</h2>
+            <p class="text-muted">Save job descriptions for quick matching later.</p>
+        </div>
+        <a href="/dashboard" class="btn btn-outline-dark">Back</a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-5">
+            <div class="card p-4">
+                <h5 class="mb-3">Add Job Description</h5>
+                <form action="/jd-library" method="post" enctype="multipart/form-data" class="d-flex flex-column gap-3">
+                    <input class="form-control" type="text" name="title" placeholder="Role title (e.g., Data Analyst)" required>
+                    <textarea class="form-control" name="jd_text" rows="5" placeholder="Paste job description text"></textarea>
+                    <input class="form-control" type="file" name="jd_file" accept=".pdf,.docx">
+                    <button class="btn btn-primary" type="submit">Save JD</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <div class="card p-4">
+                <h5 class="mb-3">Saved JDs</h5>
+                {% if jd_items %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for jd in jd_items %}
+                                <tr id="jd-{{ jd._id }}">
+                                    <td>{{ jd.title }}</td>
+                                    <td>{{ jd.created_at }}</td>
+                                    <td>
+                                        <button class="btn btn-outline-danger btn-sm" onclick="deleteJD('{{ jd._id }}')">Delete</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted">No job descriptions saved yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function deleteJD(id){
+    fetch(`/jd-library/${id}`, { method: 'DELETE' })
+    .then(res => res.json())
+    .then(data => {
+        if(data.status === "success"){
+            const row = document.getElementById(`jd-${id}`);
+            if (row) row.remove();
+        } else {
+            alert("Error deleting JD");
+        }
+    });
+}
+</script>
+
+{% endblock %}

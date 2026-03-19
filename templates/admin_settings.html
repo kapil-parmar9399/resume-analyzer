@@ -1,0 +1,43 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2 class="mb-1">Settings</h2>
+            <p class="text-muted mb-0">Admin preferences and controls</p>
+        </div>
+        <a href="/admin_panel" class="btn btn-outline-dark btn-rect">Back</a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card p-4">
+                <h5 class="mb-3">Profile</h5>
+                <div class="mb-3">
+                    <label class="form-label">Admin Name</label>
+                    <input class="form-control" type="text" value="Admin" disabled>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input class="form-control" type="email" value="admin@example.com" disabled>
+                </div>
+                <button class="btn btn-primary btn-rect" disabled>Save Changes</button>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card p-4">
+                <h5 class="mb-3">Platform Controls</h5>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" checked disabled>
+                    <label class="form-check-label">Enable resume uploads</label>
+                </div>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" checked disabled>
+                    <label class="form-check-label">Enable reports</label>
+                </div>
+                <button class="btn btn-outline-dark btn-rect" disabled>Update Settings</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

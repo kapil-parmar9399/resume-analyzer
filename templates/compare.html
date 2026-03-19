@@ -1,0 +1,73 @@
+﻿{% extends "base.html" %}
+{% block content %}
+
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2 class="mb-1">Compare Resumes</h2>
+            <p class="text-muted">Choose two resumes to compare side-by-side.</p>
+        </div>
+    </div>
+
+    <form method="get" action="/compare" class="row g-3 mb-4">
+        <div class="col-md-5">
+            <select class="form-select" name="left">
+                <option value="">Select resume A</option>
+                {% for r in resumes %}
+                <option value="{{ r._id }}" {% if selected_left == r._id %}selected{% endif %}>{{ r.filename }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-5">
+            <select class="form-select" name="right">
+                <option value="">Select resume B</option>
+                {% for r in resumes %}
+                <option value="{{ r._id }}" {% if selected_right == r._id %}selected{% endif %}>{{ r.filename }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2 d-grid">
+            <button class="btn btn-primary" type="submit">Compare</button>
+        </div>
+    </form>
+
+    {% if comparison %}
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card p-4">
+                <h4>{{ comparison.left.filename }}</h4>
+                <p class="text-muted">Score: {{ comparison.left.ai_score }}% | JD: {{ comparison.left.jd_match_percent }}%</p>
+                <h6>Skills</h6>
+                <div>
+                    {% for skill in comparison.left.skills %}
+                    <span class="tag">{{ skill }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card p-4">
+                <h4>{{ comparison.right.filename }}</h4>
+                <p class="text-muted">Score: {{ comparison.right.ai_score }}% | JD: {{ comparison.right.jd_match_percent }}%</p>
+                <h6>Skills</h6>
+                <div>
+                    {% for skill in comparison.right.skills %}
+                    <span class="tag">{{ skill }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-4 mt-4">
+        <h4 class="mb-3">Gap Analysis</h4>
+        <p><strong>Skills only in A:</strong> {{ comparison.only_left | join(', ') or 'None' }}</p>
+        <p><strong>Skills only in B:</strong> {{ comparison.only_right | join(', ') or 'None' }}</p>
+        <p class="mb-0"><strong>Overlap:</strong> {{ comparison.common | join(', ') or 'None' }}</p>
+    </div>
+    {% else %}
+        <p class="text-muted">Select two resumes to see the comparison.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

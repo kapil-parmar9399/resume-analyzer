@@ -1,0 +1,41 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2 class="mb-1">Analysis Reports</h2>
+            <p class="text-muted mb-0">All generated resume reports</p>
+        </div>
+        <a href="/admin_panel" class="btn btn-outline-dark btn-rect">Back</a>
+    </div>
+
+    <div class="card p-4">
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Filename</th>
+                        <th>User</th>
+                        <th>Score</th>
+                        <th>JD Match</th>
+                        <th>Date</th>
+                        <th>Download</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in resumes %}
+                    <tr>
+                        <td>{{ r.filename }}</td>
+                        <td>{{ r.user_id }}</td>
+                        <td>{{ r.ai_score | default(0) }}%</td>
+                        <td>{{ r.jd_match_percent | default(0) }}%</td>
+                        <td>{{ r.upload_date }}</td>
+                        <td><a href="/download/{{ r.filename }}" class="btn btn-sm btn-outline-primary btn-rect">PDF</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
